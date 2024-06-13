@@ -55,4 +55,40 @@ public class algoritmos_EDA_2 {
 			}
 		}
 	}
+
+	// Pseudocodigo Seleccion DyV
+	El problema de la selección (Divide y Vencerás) ⇒ Algoritmo
+		seleccion(int[n] T; ini, fin, s: int) tipo int
+			si ini == fin
+				retorna T[ini]
+			sino
+				w = reorganiza(T, ini, fin) // w es el pivote
+				k = w - ini + 1 // offset del primer elemento
+				si (s <= k)
+					retorna seleccion(T, ini, w, s)
+				sino
+					retorna seleccion(T, w+1, fin, s-k)
+				finsi
+			finsi
+		finseleccion
+
+
+		reorganiza(int[n] T; ini, fin: int) tipo int
+			x = T[ini]; i = ini-1; j = fin+1
+			mientras true
+				repetir
+					j = j - 1
+				hasta T[j] <= x
+				repetir
+					i = i + 1
+				hasta T[i] >= x
+				si (i < j)
+					intercambiar(T, i, j)
+				sino
+					retorna j
+				finsi
+			finmientras
+		finreorganiza
+
+
 }
