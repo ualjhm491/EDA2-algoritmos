@@ -1,3 +1,5 @@
+// Orden de camionDP1 y DP2 = O(nP)
+//Orden de camionDP3 = O(P);
 public double camionDP3(int P, int[] p, double[] b) {
  int n = b.length;
  array = new double[P+1];
@@ -28,6 +30,18 @@ public void test(int j, int c, int[] p, double[] b, int[] sol) {
 
 
 //Manera Recursiva
+//¿Se puede aplicar el metodo maestro para resolver este algoritmo?
+// No, porque n lugar de dividir el problema en subproblemas de tamaño reducido 
+// de una manera regular (como dividir a la mitad), este algoritmo sigue una estructura 
+// de resolución de subproblemas en la forma de un árbol binario.
+// Cada llamada recursiva tiene dos ramas, y el tamaño del problema se reduce en cada 
+// llamada hasta que n o 𝑃 llega a cero. Esto crea un árbol de decisiones binario
+// en el que cada nodo tiene dos hijos hasta una profundidad de 𝑛
+// La complejidad temporal de este algoritmo se puede analizar observando el árbol de decisiones binario
+// La altura del árbol es n, porque en cada nivel reducimos el problema considerando un elemento menos.
+// En cada nivel del árbol hay 2^k nodos (donde k es la profundidad del árbol), resultando en un total de 
+// 2^n nodos en el peor de los casos.
+
 public double camionRecursive(int n, int P, int[] p, double[] b) {
     if(n == 0 || P == 0) return 0;
 	if(p[n-1] > P) {
