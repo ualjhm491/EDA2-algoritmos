@@ -40,7 +40,7 @@ public void test(int j, int c, int[] p, double[] b, int[] sol) {
 // La complejidad temporal de este algoritmo se puede analizar observando el árbol de decisiones binario
 // La altura del árbol es n, porque en cada nivel reducimos el problema considerando un elemento menos.
 // En cada nivel del árbol hay 2^k nodos (donde k es la profundidad del árbol), resultando en un total de 
-// 2^n nodos en el peor de los casos.
+// 2^n nodos en el peor de los casos y una complejidad de O(2^n)
 
 public double camionRecursive(int n, int P, int[] p, double[] b) {
     if(n == 0 || P == 0) return 0;
