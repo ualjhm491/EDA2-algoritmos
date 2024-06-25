@@ -240,5 +240,111 @@ Se podría adaptar el método para que mantenga un seguimiento del camino más c
 hasta el momento y lo actualice si se encuentra un camino más corto durante la exploración.
 Esto requeriría una comparación continua de la longitud del camino actual con el 
 camino más corto conocido y la actualización correspondiente de la solución si se 
-encuentra una mejora.
-  */
+encuentra una import java.util.HashSet;
+import java.util.Map;
+import java.util.TreeMap;
+
+public class Resultado {
+    private String source;
+    private double totalWeight;
+    private String path;
+
+    public Resultado(String source) {
+        this.source = source;
+        this.totalWeight = 0.0;
+        this.path = source;
+    }
+
+    public void addEdge(String from, String to, Double weight) {
+        totalWeight += weight;
+        path += " -> " + to;
+    }
+
+    @Override
+    public String toString() {
+        return "Path: " + path + "\nTotal weight: " + totalWeight;
+    }
+}
+
+public class Network<T> {
+    private Map<T, TreeMap<T, Double>> adjMap;
+
+    public Network() {
+        this.adjMap = new TreeMap<>();
+    }
+
+    public void addVertex(T vertex) {
+        adjMap.putIfAbsent(vertex, new TreeMap<>());
+    }
+
+    public void addEdge(T from, T to, double weight) {
+        adjMap.get(from).put(to, weight);
+        adjMap.get(to).put(from, weight); // assuming undirected graph
+    }
+
+    public Double getWeight(T from, T to) {
+        return adjMap.get(from).get(to);
+    }
+
+    public int numberOfVertices() {
+        return adjMap.size();
+    }
+
+    public TreeMap<T, Double> getNeighbors(T vertex) {
+        return adjMap.get(vertex);
+    }
+}
+
+public class TSPGreedy {
+    public static Resultado tspGreedy(Network<String> net, String source) {
+        Resultado result = new Resultado(source);
+        HashSet<String> visited = new HashSet<>();
+        String current = source;
+        visited.add(current);
+
+        while (visited.size() < net.numberOfVertices()) {
+            String next = closestNeighbor(net, visited, current);
+            if (next == null) {
+                break; // No solution, exit the loop
+            }
+            Double weight = net.getWeight(current, next);
+            result.addEdge(current, next, weight);
+            visited.add(next);
+            current = next;
+        }
+
+        if (visited.size() == net.numberOfVertices()) {
+            Double weight = net.getWeight(current, source);
+            result.addEdge(current, source, weight);
+        }
+        return result;
+    }
+
+    private static String closestNeighbor(Network<String> net, HashSet<String> visited, String current) {
+        Double minWeight = Double.MAX_VALUE;
+        String closest = null;
+        for (Map.Entry<String, Double> neighbor : net.getNeighbors(current).entrySet()) {
+            if (!visited.contains(neighbor.getKey()) && neighbor.getValue() < minWeight) {
+                minWeight = neighbor.getValue();
+                closest = neighbor.getKey();
+            }
+        }
+        return closest;
+    }
+
+    public static void main(String[] args) {
+        Network<String> net = new Network<>();
+        net.addVertex("A");
+        net.addVertex("B");
+        net.addVertex("C");
+        net.addVertex("D");
+
+        net.addEdge("A", "B", 10);
+        net.addEdge("A", "C", 15);
+        net.addEdge("A", "D", 20);
+        net.addEdge("B", "C", 35);
+        net.addEdge("B", "D", 25);
+        net.addEdge("
+
+
+
